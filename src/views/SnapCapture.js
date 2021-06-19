@@ -5,28 +5,30 @@ import {useIsForeground} from '../hooks/useIsForeground';
 
 const SnapCapture = ({navigation}) => {
   const devices = useCameraDevices();
-  console.log('Navigation object: ', navigation);
-  console.log(devices);
   const camera = useRef(null);
   const device = devices.back;
 
   const takePhoto = useCallback(async () => {
-    if (!camera.current) {
-      console.log('Camera not initalized yet');
-      return;
-    }
+    try {
+      if (!camera.current) {
+        console.log('Camera not initalized yet');
+        return;
+      }
 
-    console.log('Taking photo');
-    const image = await camera.current.takePhoto({
-      photoCodec: 'jpeg',
-      qualityPrioritization: 'speed',
-      quality: 90,
-      skipMetadata: true
-    });
-    // Navigation to Preview screen
-    setTimeout(() => {
-      navigation.navigate('SnapPreview', image);
-    }, 1000);
+      console.log('Taking photo');
+      const image = await camera.current.takePhoto({
+        photoCodec: 'jpeg',
+        qualityPrioritization: 'speed',
+        quality: 90,
+        skipMetadata: true
+      });
+      // Navigation to Preview screen
+      setTimeout(() => {
+        navigation.navigate('SnapPreview', image);
+      }, 1000);
+    } catch (ex) {
+      console.error('Error: ', ex);
+    }
   }, [camera, navigation]);
 
   const isAppForeground = useIsForeground();
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
   },
   captureButtonArea: {
     position: 'absolute',
-    left: '30%'
+    left: '30%',
+    bottom: '10%'
   },
   snapBtn: {
     borderWidth: 1,

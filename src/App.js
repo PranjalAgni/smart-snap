@@ -7,7 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 const App = () => {
   const navigationOptions = {
-    headerShown: false
+    headerShown: true
   };
   const Stack = createStackNavigator();
 
@@ -17,13 +17,7 @@ const App = () => {
         initialRouteName="SnapCapture"
         screenOptions={navigationOptions}>
         <Stack.Screen name="SnapCapture" component={SnapCapture} />
-        <Stack.Screen
-          name="SnapPreview"
-          component={SnapPreview}
-          options={{
-            headerTitle: 'SnapPreview'
-          }}
-        />
+        <Stack.Screen name="SnapPreview" component={SnapPreview} />
       </Stack.Navigator>
     </NavigationContainer>
   );
