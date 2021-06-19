@@ -1,5 +1,5 @@
 import React, {useRef, useCallback} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
 import {useIsForeground} from '../hooks/useIsForeground';
 
@@ -8,6 +8,7 @@ const SnapPreview = () => {
   console.log(devices);
   const camera = useRef(null);
   const device = devices.back;
+
   const takePhoto = useCallback(async () => {
     if (!camera.current) {
       console.log('Camera not initalized yet');
@@ -43,10 +44,10 @@ const SnapPreview = () => {
 
   return (
     <View style={styles.container}>
-      <View style={StyleSheet.StyleSheet}>
+      <View style={StyleSheet.absoluteFill}>
         <Camera
           ref={camera}
-          style={StyleSheet.StyleSheet}
+          style={StyleSheet.absoluteFill}
           device={device}
           photo={true}
           isActive={isAppForeground}
@@ -54,8 +55,8 @@ const SnapPreview = () => {
           onInitialized={onInitialized}
         />
       </View>
-      <View style={styles.captureContainer}>
-        <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
+      <View style={styles.captureButtonArea}>
+        <TouchableOpacity style={styles.snapBtn} onPress={takePhoto}>
           <Text>Take Photo</Text>
         </TouchableOpacity>
       </View>
@@ -68,21 +69,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black'
   },
-  preview: {
-    flex: 1
-  },
-  captueContainer: {
+  captureButtonArea: {
     position: 'absolute',
-    bottom: 0
+    left: '30%'
   },
-  capturseButton: {
-    position: 'absolute',
-    alignSelf: 'center'
-  },
-  captureButton: {
+  snapBtn: {
+    borderWidth: 1,
+    borderColor: '#4f83cc',
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10
+    justifyContent: 'center',
+    width: '180%',
+    height: '180%',
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    shadowColor: '#414685',
+    shadowOffset: {
+      width: 1,
+      height: 5.5
+    },
+    elevation: 6
   }
 });
 export default SnapPreview;
